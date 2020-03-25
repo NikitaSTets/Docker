@@ -2,12 +2,17 @@
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+
+EXPOSE 4500
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["testDockerLinux/testDockerLinux.csproj", "testDockerLinux/"]
+COPY ["testDockerLinux.csproj", "testDockerLinux/"]
+COPY ["Program.cs", "testDockerLinux/"]
+COPY ["Startup.cs", "testDockerLinux/"]
+COPY ["appsettings.Development.json", "testDockerLinux/"]
+COPY ["appsettings.json", "testDockerLinux/"]
+
 RUN dotnet restore "testDockerLinux/testDockerLinux.csproj"
 COPY . .
 WORKDIR "/src/testDockerLinux"
